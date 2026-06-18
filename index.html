@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1"
+    />
+    <meta name="theme-color" content="#173c32" />
+    <meta
+      name="description"
+      content="Find your rhythm in an endless jungle. A momentum-driven monkey swinging game."
+    />
+    <title>Canopy Run — Find your swing</title>
+  </head>
+  <body>
+    <main>
+      <header>
+        <a class="wordmark" href="./"
+          ><span class="brand-icon">↗</span> CANOPY<span class="wordmark-light"
+            >RUN</span
+          ></a
+        >
+        <div class="header-right">
+          <span class="edition">AN ENDLESS JUNGLE ADVENTURE</span
+          ><button id="sound" aria-label="Toggle sound" aria-pressed="true">
+            SOUND ON ♫
+          </button>
+        </div>
+      </header>
+      <section class="intro">
+        <div>
+          <p class="eyebrow">A LITTLE COURAGE. A LOT OF MOMENTUM.</p>
+          <h1>Find your swing.</h1>
+        </div>
+        <p class="intro-copy">
+          Let go. Catch the next branch.<br />See how far your instincts take
+          you.
+        </p>
+      </section>
+      <section class="game-shell" aria-label="Canopy Run game">
+        <div class="hud">
+          <div>
+            <span class="hud-label">DISTANCE</span
+            ><strong id="distance">0<span> m</span></strong>
+          </div>
+          <div>
+            <span class="hud-label">BANANAS</span
+            ><strong id="bananas">0</strong>
+          </div>
+          <div class="score">
+            <span class="hud-label">SCORE</span
+            ><strong id="score">00000</strong>
+          </div>
+        </div>
+        <div id="game"></div>
+        <div id="overlay" class="overlay">
+          <div class="overlay-card">
+            <p class="eyebrow">THE CANOPY IS CALLING</p>
+            <h2>Take a leap.</h2>
+            <p>
+              One monkey. An endless jungle.<br />All you need is a little
+              timing.
+            </p>
+            <button id="play" class="primary">LET’S SWING <span>↗</span></button
+            ><small>Hold to grab · Release to fly</small>
+          </div>
+        </div>
+        <div id="results" class="overlay hidden">
+          <div class="overlay-card">
+            <p class="eyebrow">EVERY LEAP IS A NEW BEGINNING</p>
+            <h2>What a run.</h2>
+            <div id="stats"></div>
+            <button id="again" class="primary">
+              ONE MORE SWING <span>↗</span>
+            </button>
+          </div>
+        </div>
+        <div class="game-footer">
+          <span
+            ><i></i>
+            <span id="status">YOUR NEXT ADVENTURE STARTS HERE</span></span
+          ><span id="seed">JUNGLE № 042</span>
+        </div>
+        <button id="pause" class="pause hidden" aria-label="Pause game">
+          Ⅱ
+        </button>
+        <div id="paused" class="overlay hidden">
+          <div class="overlay-card">
+            <p class="eyebrow">TAKE A BREATHER</p>
+            <h2>Hang tight.</h2>
+            <button id="resume" class="primary">KEEP SWINGING ↗</button>
+          </div>
+        </div>
+      </section>
+      <section class="instructions">
+        <div>
+          <span class="step">01</span>
+          <p>
+            <strong>Hold to grab</strong><span>Space, mouse, or touch</span>
+          </p>
+        </div>
+        <div>
+          <span class="step">02</span>
+          <p>
+            <strong>Release to fly</strong
+            ><span>Let momentum do its thing</span>
+          </p>
+        </div>
+        <div>
+          <span class="step">03</span>
+          <p>
+            <strong>Find your rhythm</strong
+            ><span>Catch branches. Collect bananas.</span>
+          </p>
+        </div>
+        <span class="no-rush"
+          >Easy to learn.<br />A little wild to master.</span
+        >
+      </section>
+      <footer>
+        <span>MADE FOR THE JOY OF THE SWING.</span
+        ><span>NO FINISH LINE. JUST ONE MORE BRANCH. ↗</span>
+      </footer>
+    </main>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>

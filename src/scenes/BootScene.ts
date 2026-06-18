@@ -1,0 +1,79 @@
+import Phaser from "phaser";
+export class BootScene extends Phaser.Scene {
+  constructor() {
+    super("Boot");
+  }
+  create() {
+    const g = this.make.graphics({ x: 0, y: 0 });
+    // All artwork is generated locally; no asset downloads are required.
+
+    g.clear();
+    g.lineStyle(7, 0x70452a);
+    g.beginPath();
+    g.moveTo(34, 43);
+    g.lineTo(16, 52);
+    g.lineTo(9, 43);
+    g.lineTo(13, 33);
+    g.strokePath();
+    g.fillStyle(0x855133);
+    g.fillEllipse(39, 40, 29, 33);
+    g.fillStyle(0xc59057);
+    g.fillEllipse(41, 43, 18, 23);
+    g.lineStyle(7, 0x855133);
+    g.lineBetween(31, 32, 23, 13);
+    g.lineBetween(49, 32, 58, 15);
+    g.lineBetween(34, 51, 27, 61);
+    g.lineBetween(46, 51, 55, 59);
+    g.fillStyle(0x855133);
+    g.fillCircle(39, 23, 20);
+    g.fillCircle(19, 23, 8);
+    g.fillCircle(59, 23, 8);
+    g.fillStyle(0xe5b878);
+    g.fillCircle(19, 23, 5);
+    g.fillCircle(59, 23, 5);
+    g.fillEllipse(39, 28, 29, 25);
+    g.fillStyle(0x233b2d);
+    g.fillCircle(33, 24, 2.5);
+    g.fillCircle(46, 24, 2.5);
+    g.lineStyle(2, 0x70452a);
+    g.beginPath();
+    g.arc(40, 30, 6, 0, Math.PI);
+    g.strokePath();
+    g.generateTexture("monkey", 76, 70);
+    g.clear();
+    g.lineStyle(9, 0xf3cb62);
+    g.beginPath();
+    g.arc(12, 8, 13, 0.15, 2.3);
+    g.strokePath();
+    g.lineStyle(3, 0xffeaa0);
+    g.beginPath();
+    g.arc(12, 7, 10, 0.25, 2.1);
+    g.strokePath();
+    g.fillStyle(0x76613c);
+    g.fillCircle(25, 10, 2);
+    g.generateTexture("banana", 32, 30);
+    g.clear();
+    g.lineStyle(15, 0x355540);
+    g.lineBetween(4, 83, 155, 71);
+    g.lineStyle(7, 0x63714b);
+    g.lineBetween(10, 79, 151, 67);
+    g.lineStyle(5, 0x355540);
+    g.lineBetween(71, 76, 48, 50);
+    g.lineBetween(105, 73, 125, 45);
+    g.fillStyle(0x5c8052);
+    for (const [x, y, r] of [
+      [27, 50, 23],
+      [55, 44, 29],
+      [89, 45, 23],
+      [121, 34, 31],
+      [152, 49, 20],
+    ])
+      g.fillEllipse(x, y, r * 1.8, r);
+    g.fillStyle(0x81985e);
+    g.fillEllipse(45, 35, 43, 15);
+    g.fillEllipse(120, 24, 45, 15);
+    g.generateTexture("branch", 180, 100);
+    g.destroy();
+    this.scene.start("Game");
+  }
+}
