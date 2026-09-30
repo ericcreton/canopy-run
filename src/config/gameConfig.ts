@@ -20,3 +20,11 @@ export const world = {
   baseGap: 175,
   maxGap: 225,
 };
+
+export const hazards = {
+  firstBranch: 4,
+  branchInterval: 4,
+  patrolHeight: 18,
+  // Slightly forgiving hitbox: hands and tail can brush past danger.
+  playerRadius: 14,
+};

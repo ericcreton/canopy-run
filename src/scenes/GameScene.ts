@@ -1,4 +1,5 @@
 import Phaser from "phaser";
+import { HazardSystem } from "../systems/HazardSystem";
 import { Monkey } from "../entities/Monkey";
 import { SwingSystem } from "../systems/SwingSystem";
 import { LevelGenerator } from "../systems/LevelGenerator";
@@ -12,6 +13,7 @@ export class GameScene extends Phaser.Scene {
   swing!: SwingSystem;
   level!: LevelGenerator;
   score!: ScoreSystem;
+  hazards!: HazardSystem;
   soundFX = new SoundSystem();
   private backdrop!: JungleBackdrop;
   private playing = false;
@@ -33,6 +35,8 @@ export class GameScene extends Phaser.Scene {
     this.score = new ScoreSystem();
     this.backdrop = new JungleBackdrop(this);
     this.level = new LevelGenerator(this);
+    this.hazards = new HazardSystem(this);
+    this.hazards.populate(this.level.points, 180);
     this.monkey = new Monkey(this);
     this.swing = new SwingSystem(this, this.monkey);
     this.matter.world.pause();
@@ -102,6 +106,7 @@ export class GameScene extends Phaser.Scene {
       window.removeEventListener("blur", blur);
       document.removeEventListener("visibilitychange", visibility);
       this.swing.destroy();
+      this.hazards.destroy();
       this.input.keyboard?.removeAllListeners();
     });
     if ((this.scene.settings.data as { autostart?: boolean })?.autostart)
@@ -147,6 +152,8 @@ export class GameScene extends Phaser.Scene {
     this.swing.updatePhysics();
     this.swing.draw();
     this.level.update(b.x);
+    this.hazards.populate(this.level.points, b.x);
+    const hazardHit = this.hazards.update(b, delta);
     const bananas = this.level.collect(b.x, b.y);
     if (bananas) {
       this.score.bananas += bananas;
@@ -167,6 +174,16 @@ export class GameScene extends Phaser.Scene {
     );
     this.backdrop.draw(this.cameraX);
     this.renderHUD();
+    if (hazardHit) {
+      this.cameras.main.shake(180, 0.005);
+      this.cameras.main.flash(160, 203, 111, 68);
+      this.endRun(
+        hazardHit === "hornet"
+          ? "STUNG! SWING BELOW THE HORNETS."
+          : "OUCH! RELEASE EARLIER TO CLEAR THE THORNS.",
+      );
+      return;
+    }
     if (b.y > physics.deathY || b.x < this.cameraX - 150) this.endRun();
   }
   private renderHUD() {
@@ -178,7 +195,7 @@ export class GameScene extends Phaser.Scene {
     el("bananas").textContent = String(this.score.bananas);
     el("score").textContent = String(this.score.score).padStart(5, "0");
   }
-  private endRun() {
+  private endRun(reason = "MISSED THE CANOPY. CATCH THE NEXT BRANCH.") {
     this.playing = false;
     this.pointerHeld = false;
     this.keyHeld = false;
@@ -187,6 +204,7 @@ export class GameScene extends Phaser.Scene {
     this.soundFX.play("death");
     el("pause").classList.add("hidden");
     el("status").textContent = "THERE’S ALWAYS ANOTHER BRANCH";
+    el("death-reason").textContent = reason;
     const s = this.score;
     el("stats").innerHTML = [
       [s.score, "FINAL SCORE"],

@@ -73,6 +73,54 @@ export class BootScene extends Phaser.Scene {
     g.fillEllipse(45, 35, 43, 15);
     g.fillEllipse(120, 24, 45, 15);
     g.generateTexture("branch", 180, 100);
+    g.clear();
+    // Warm colors distinguish danger from the green canopy and yellow bananas.
+    g.fillStyle(0xeaf4d9, 0.85);
+    g.fillEllipse(28, 17, 26, 17);
+    g.fillEllipse(48, 17, 26, 17);
+    g.lineStyle(2, 0x355540);
+    g.strokeEllipse(28, 17, 26, 17);
+    g.strokeEllipse(48, 17, 26, 17);
+    g.fillStyle(0x392c31);
+    g.fillTriangle(63, 27, 77, 34, 63, 39);
+    g.fillStyle(0xe69c4c);
+    g.fillEllipse(41, 34, 46, 29);
+    g.fillStyle(0x63402e);
+    g.fillRoundedRect(37, 21, 7, 26, 3);
+    g.fillRoundedRect(51, 23, 6, 22, 3);
+    g.fillStyle(0xbb633e);
+    g.fillCircle(23, 32, 14);
+    g.fillStyle(0xfff4d1);
+    g.fillCircle(19, 29, 6);
+    g.fillStyle(0x2e3030);
+    g.fillCircle(17, 30, 3);
+    g.lineStyle(3, 0x392c31);
+    g.lineBetween(13, 21, 24, 24);
+    g.generateTexture("hornet", 80, 58);
+    g.clear();
+    g.lineStyle(4, 0x77513e);
+    g.lineBetween(37, 0, 39, 13);
+    g.fillStyle(0xd18459);
+    for (let i = 0; i < 10; i++) {
+      const angle = (i * Math.PI) / 5;
+      g.fillTriangle(
+        38 + Math.cos(angle - 0.3) * 19,
+        38 + Math.sin(angle - 0.3) * 19,
+        38 + Math.cos(angle) * 34,
+        38 + Math.sin(angle) * 34,
+        38 + Math.cos(angle + 0.3) * 19,
+        38 + Math.sin(angle + 0.3) * 19,
+      );
+    }
+    g.fillStyle(0x944939);
+    g.fillCircle(38, 38, 23);
+    g.fillStyle(0xc57149);
+    g.fillCircle(33, 32, 15);
+    g.fillStyle(0x6e3f33);
+    g.fillCircle(29, 29, 3);
+    g.fillCircle(43, 36, 4);
+    g.fillCircle(33, 45, 3);
+    g.generateTexture("thorns", 76, 76);
     g.destroy();
     this.scene.start("Game");
   }

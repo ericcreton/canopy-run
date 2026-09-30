@@ -41,6 +41,8 @@ TypeScript, Phaser 3, Phaser's bundled Matter physics engine, Vite, and HTML/CSS
 - `src/systems/LevelGenerator.ts`: generation, collectibles, and world cleanup.
 - `src/systems/ScoreSystem.ts`: run metrics and scoring.
 - `src/systems/JungleBackdrop.ts`: parallax jungle rendering.
+- `src/systems/HazardSystem.ts`: enemy lifecycle, animation, and swept collisions.
+- `src/systems/hazardRules.ts`: deterministic hazard placement and collision math.
 - `src/systems/SoundSystem.ts`: optional synthesized feedback.
 - `src/config/gameConfig.ts`: tunable physics and generation values.
 
@@ -54,7 +56,7 @@ Selection checks radius, minimum length, height, and direction. Forward branches
 
 Seed 42 produces a repeatable sequence. Branches are placed 175–225 world units apart, with small, clamped vertical changes. Difficulty reaches its cap after 22,000 world units. The bounded gaps stay inside the grab radius, though successful traversal still requires managing height and momentum. Layout is deterministic; real-time input and physics are not a replay protocol.
 
-Generation runs ahead of the player and removes branches and bananas more than 650 units behind. Banana arcs reward passes below branches. Falling is the MVP's main hazard; lethal obstacles are deliberately deferred. The run ends below the canopy or after falling far behind the scrolling camera.
+Generation runs ahead of the player and removes branches and bananas more than 650 units behind. Banana arcs reward passes below branches. Hornets patrol a high lane and thorn pods occupy a lower lane, alternating every fourth branch after a forgiving opening. Catch low beneath hornets, and release earlier to clear thorn pods. Touching either ends the run. Their hitboxes are forgiving, and swept collision checks prevent fast movement from tunneling through hazards. The run ends below the canopy or after falling far behind the scrolling camera.
 
 ## Scoring
 
@@ -68,4 +70,3 @@ npm run build
 ```
 
 The tests use Phaser's bundled Matter engine and cover momentum at release, attachment without velocity resets, range selection, single-constraint holding, release cleanup, cooldowns, maximum-speed rope stability, 10,000 deterministic branch placements, bounded object counts, scoring resets, free fall, and a sustained sequence of timed swings. Browser interaction and subjective swing feel should also be checked on target devices; engine tests alone do not certify all browsers.
-
