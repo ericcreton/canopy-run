@@ -69,24 +69,3 @@ npm run build
 
 The tests use Phaser's bundled Matter engine and cover momentum at release, attachment without velocity resets, range selection, single-constraint holding, release cleanup, cooldowns, maximum-speed rope stability, 10,000 deterministic branch placements, bounded object counts, scoring resets, free fall, and a sustained sequence of timed swings. Browser interaction and subjective swing feel should also be checked on target devices; engine tests alone do not certify all browsers.
 
-## Publish to itch.io
-
-1. Run `npm run build`.
-2. Zip the **contents** of `dist/`, including `index.html` and `assets/`. Keep `index.html` at the root of the ZIP.
-3. Create an itch.io project with the HTML game type, upload the ZIP, and select “This file will be played in the browser.”
-4. Use a roomy embedded viewport (for example 1280 × 900) and enable fullscreen support. The surrounding page adapts to narrower mobile viewports.
-5. Save and test the embedded game before publishing.
-
-Vite uses relative asset paths so the build can run from a hosting subdirectory. Serve the build over HTTP; opening the HTML directly with `file://` is unsupported. Google Fonts enhance typography when available; system font fallbacks keep the game usable offline. No accounts or backend are required.
-
-## Roadmap
-
-- More mobile playtesting and alternate jungle palettes
-- Additional sound design, leaves, and optional obstacles
-- Daily seed selection and achievements
-- Unlockable monkey skins and environments
-- Replay/ghost recording with a versioned input format
-- Optional FastAPI/PostgreSQL service for accounts and leaderboards
-- Opt-in telemetry and an analytics dashboard
-
-Keep backend features outside the physics loop. The score system and seeded generator provide small, focused extension points without requiring server infrastructure for local play.
