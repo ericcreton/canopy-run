@@ -18,6 +18,7 @@ export class GameScene extends Phaser.Scene {
   private backdrop!: JungleBackdrop;
   private playing = false;
   private paused = false;
+  private waitingForFirstGrab = true;
   private pointerHeld = false;
   private keyHeld = false;
   private cameraX = 0;
@@ -28,6 +29,7 @@ export class GameScene extends Phaser.Scene {
   create() {
     this.playing = false;
     this.paused = false;
+    this.waitingForFirstGrab = true;
     this.pointerHeld = false;
     this.keyHeld = false;
     this.cameraX = 0;
@@ -63,8 +65,10 @@ export class GameScene extends Phaser.Scene {
         this.playing &&
         !this.paused &&
         (pointer.wasTouch || pointer.leftButtonDown())
-      )
+      ) {
         this.pointerHeld = true;
+        this.tryGrab();
+      }
     });
     this.input.on("pointerup", () => {
       this.pointerHeld = false;
@@ -80,6 +84,7 @@ export class GameScene extends Phaser.Scene {
       if (!this.playing && el("results").classList.contains("hidden"))
         this.startRun();
       this.keyHeld = true;
+      this.tryGrab();
     });
     this.input.keyboard?.on("keyup-SPACE", () => {
       this.keyHeld = false;
@@ -118,9 +123,28 @@ export class GameScene extends Phaser.Scene {
     el("overlay").classList.add("hidden");
     el("results").classList.add("hidden");
     el("pause").classList.remove("hidden");
-    el("status").textContent = "HOLD TO GRAB · RELEASE TO FLY";
-    this.monkey.body.setVelocity(physics.initialVelocity, 0);
-    this.matter.world.resume();
+    el("status").textContent = "TAKE YOUR TIME · HOLD TO START SWINGING";
+    this.monkey.body.setVelocity(0, 0);
+    this.matter.world.pause();
+  }
+  private tryGrab() {
+    if (
+      !this.playing ||
+      this.paused ||
+      !this.swing.grab(this.level.points, this.time.now)
+    )
+      return;
+    if (this.waitingForFirstGrab) {
+      this.waitingForFirstGrab = false;
+      this.monkey.body.setVelocity(physics.initialVelocity, 0);
+      this.matter.world.resume();
+      el("status").textContent = "HOLD TO GRAB · RELEASE TO FLY";
+    }
+    this.score.grab(this.swing.anchor!.id);
+    this.soundFX.play("grab");
+    const velocity = (this.monkey.body.body as MatterJS.BodyType).velocity;
+    if (Math.hypot(velocity.x, velocity.y) > 13)
+      this.cameras.main.shake(90, 0.0015);
   }
   private releaseIfIdle() {
     if (!this.pointerHeld && !this.keyHeld && this.swing.release(this.time.now))
@@ -135,22 +159,26 @@ export class GameScene extends Phaser.Scene {
     el("paused").classList.toggle("hidden", !this.paused);
     el("pause").classList.toggle("hidden", this.paused);
     if (this.paused) this.matter.world.pause();
-    else this.matter.world.resume();
+    else if (!this.waitingForFirstGrab) this.matter.world.resume();
   }
   update(_time: number, delta: number) {
-    if (!this.playing || this.paused) return;
+    if (!this.playing || this.paused) {
+      if (!this.paused && !el("overlay").classList.contains("hidden"))
+        this.monkey.animate(delta);
+      return;
+    }
     const b = this.monkey.body;
     const speed = this.monkey.update();
-    if (
-      (this.pointerHeld || this.keyHeld) &&
-      this.swing.grab(this.level.points, this.time.now)
-    ) {
-      this.score.grab(this.swing.anchor!.id);
-      this.soundFX.play("grab");
-      if (speed > 13) this.cameras.main.shake(90, 0.0015);
+    if (this.pointerHeld || this.keyHeld) this.tryGrab();
+    // Keep the opening safe (including after pause/restart) until a grab succeeds.
+    // Run time, collectibles, enemies and camera movement start with that grab.
+    if (this.waitingForFirstGrab) {
+      this.monkey.animate(delta);
+      return;
     }
     this.swing.updatePhysics();
-    this.swing.draw();
+    this.monkey.animate(delta, this.swing.anchor);
+    this.swing.draw(this.monkey.arms.grip);
     this.level.update(b.x);
     this.hazards.populate(this.level.points, b.x);
     const hazardHit = this.hazards.update(b, delta);

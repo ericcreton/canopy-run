@@ -27,7 +27,7 @@ npm run preview
 | Pause / resume          | Escape or pause button    | Pause / resume button   |
 | Toggle sound            | Sound button              | Sound button            |
 
-Start holding early on your first leap. Release near the bottom of the swing for forward speed, or slightly later for more height. Staying attached too long carries you back. Only an attached vine is drawn: there are no target markers, aim lines, highlights, or trajectory previews. Switching away from the browser pauses the run.
+The monkey hovers safely after Play or Play Again until your first successful grab. Hold Space, the mouse, or touch when you are ready; movement and the run timer start with that grab. Release near the bottom of the swing for forward speed, or slightly later for more height. Staying attached too long carries you back. Only an attached vine is drawn: there are no target markers, aim lines, highlights, or trajectory previews. Switching away from the browser pauses the run.
 
 ## Stack and structure
 

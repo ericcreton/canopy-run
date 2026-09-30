@@ -62,25 +62,15 @@ export class SwingSystem {
       });
     }
   }
-  draw() {
+  draw(grip = { x: this.monkey.body.x, y: this.monkey.body.y - 8 }) {
     this.rope.clear();
     if (this.anchor) {
       this.rope
         .lineStyle(4, 0x263f27, 0.5)
-        .lineBetween(
-          this.anchor.x + 2,
-          this.anchor.y,
-          this.monkey.body.x + 2,
-          this.monkey.body.y - 8,
-        );
+        .lineBetween(this.anchor.x + 2, this.anchor.y, grip.x + 2, grip.y);
       this.rope
         .lineStyle(2.5, 0xe0d49b)
-        .lineBetween(
-          this.anchor.x,
-          this.anchor.y,
-          this.monkey.body.x,
-          this.monkey.body.y - 8,
-        );
+        .lineBetween(this.anchor.x, this.anchor.y, grip.x, grip.y);
     }
   }
   destroy() {

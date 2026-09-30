@@ -20,8 +20,6 @@ export class BootScene extends Phaser.Scene {
     g.fillStyle(0xc59057);
     g.fillEllipse(41, 43, 18, 23);
     g.lineStyle(7, 0x855133);
-    g.lineBetween(31, 32, 23, 13);
-    g.lineBetween(49, 32, 58, 15);
     g.lineBetween(34, 51, 27, 61);
     g.lineBetween(46, 51, 55, 59);
     g.fillStyle(0x855133);
